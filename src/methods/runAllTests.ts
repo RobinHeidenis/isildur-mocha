@@ -9,7 +9,7 @@ import Mocha from "mocha";
 
 export const runAllTests = async (): Promise<TestSuite[]> => {
   return new Promise((resolve) => {
-    const mocha = new Mocha({ require: ["ts-node/register"] });
+    const mocha = new Mocha();
     const testyFiles = globSync(
       "**/*.{test,spec}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
       { ignore: ["node_modules/**"] }
