@@ -38,7 +38,6 @@ export const runAllTests = async (): Promise<TestSuite[]> => {
               numPassing: suite.tests.filter((test) => test.state === "passed")
                 .length,
               numSkipped: suite.tests.filter((test) => test.pending).length,
-              numTodo: 0,
               tests: suite.tests.map((test) => {
                 const baseResult = {
                   name: test.title,
