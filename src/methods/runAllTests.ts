@@ -8,18 +8,18 @@ if (globSync("**/tsconfig.json", { ignore: ["node_modules/**"] }).length > 0) {
 import Mocha from "mocha";
 
 export const runAllTests = async (): Promise<TestSuite[]> => {
-  return new Promise((resolve) => {
-    const mocha = new Mocha();
-    const testyFiles = globSync(
-      "**/*.{test,spec}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
-      { ignore: ["node_modules/**"] }
-    );
-    const suites: TestSuite[] = [];
-    testyFiles.forEach((file) => {
-      mocha.addFile(file);
-    });
+  const mocha = new Mocha();
+  const testyFiles = globSync(
+    "**/*.{test,spec}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
+    { ignore: ["node_modules/**"] }
+  );
+  const suites: TestSuite[] = [];
+  testyFiles.forEach((file) => {
+    mocha.addFile(file);
+  });
 
-    void mocha.loadFilesAsync().then(() => {
+  return new Promise((resolve, reject) => {
+    mocha.loadFilesAsync().then(() => {
       mocha
         .run()
         .on("suite end", (suite) => {
@@ -38,6 +38,7 @@ export const runAllTests = async (): Promise<TestSuite[]> => {
               numPassing: suite.tests.filter((test) => test.state === "passed")
                 .length,
               numSkipped: suite.tests.filter((test) => test.pending).length,
+
               tests: suite.tests.map((test) => {
                 const baseResult = {
                   name: test.title,
@@ -71,6 +72,9 @@ export const runAllTests = async (): Promise<TestSuite[]> => {
         .on("end", () => {
           resolve(suites);
         });
+    }).catch((err) => {
+      console.error(err);
+      reject(err);
     });
   });
 };
