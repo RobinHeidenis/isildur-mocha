@@ -1,4 +1,4 @@
-import { TestSuite } from "@isildur-testing/api";
+import { BaseTestSuite } from "@isildur-testing/api";
 import { globSync } from "glob";
 if (globSync("**/tsconfig.json", { ignore: ["node_modules/**"] }).length > 0) {
   require("ts-mocha");
@@ -6,24 +6,28 @@ if (globSync("**/tsconfig.json", { ignore: ["node_modules/**"] }).length > 0) {
 
 // import mocha after ts-mocha
 import Mocha from "mocha";
+import { Reporter } from "~/customReporter";
 import { discoverAndAddTestFiles } from "~/helpers/discoverAndAddTestFiles";
 import { EVENT_RUN_END, EVENT_SUITE_END } from "~/helpers/mochaEventConstants";
-import { transformSuite } from "~/helpers/transformSuite";
+import { transformDiscoveredSuite } from "~/helpers/transformSuite";
 
-export const runAllTests = async (): Promise<TestSuite[]> => {
-  const mocha = new Mocha();
+export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
+  const mocha = new Mocha({reporter: Reporter});
   await discoverAndAddTestFiles(mocha);
-  const suites: TestSuite[] = [];
+  const suites: BaseTestSuite[] = [];
 
   await mocha.loadFilesAsync();
 
   return new Promise((resolve) => {
     mocha
+      .dryRun()
       .run()
       .on(EVENT_SUITE_END, (suite) => {
         if (!suite.root) return;
 
-        suite.suites.forEach((suite) => suites.push(transformSuite(suite)));
+        suite.suites.forEach((suite) =>
+          suites.push(transformDiscoveredSuite(suite))
+        );
       })
       .on(EVENT_RUN_END, () => resolve(suites));
   });

@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@changesets/cli": "^2.26.1",
-    "@isildur-testing/api": "^0.1.0",
+    "@isildur-testing/api": "^0.2.0",
     "glob": "^10.2.2",
     "mocha": "^10.2.0",
     "ts-mocha": "^10.0.0"
