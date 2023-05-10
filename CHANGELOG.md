@@ -1,5 +1,11 @@
 # @isildur-testing/mocha
 
+## 0.3.0
+
+### Minor Changes
+
+- e86ead2: Implemented discovering all tests in a project using Mocha
+
 ## 0.2.0
 
 ### Minor Changes
