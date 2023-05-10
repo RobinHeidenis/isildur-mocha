@@ -1,5 +1,11 @@
 # @isildur-testing/mocha
 
+## 0.3.1
+
+### Patch Changes
+
+- d2a1c73: Rebuilt so it has types now
+
 ## 0.3.0
 
 ### Minor Changes
