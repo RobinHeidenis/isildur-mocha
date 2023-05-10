@@ -1,5 +1,11 @@
 # @isildur-testing/mocha
 
+## 0.3.2
+
+### Patch Changes
+
+- f817c42: Bump @isildur-testing/api to version 0.2.1
+
 ## 0.3.1
 
 ### Patch Changes
