@@ -1,7 +1,5 @@
 import { BaseTestSuite } from "@isildur-testing/api";
 import { globSync } from "glob";
-
-// import mocha after ts-mocha
 import Mocha from "mocha";
 import { Reporter } from "~/customReporter";
 import { discoverAndAddTestFiles } from "~/helpers/discoverAndAddTestFiles";
@@ -9,10 +7,12 @@ import { EVENT_RUN_END, EVENT_SUITE_END } from "~/helpers/mochaEventConstants";
 import { transformDiscoveredSuite } from "~/helpers/transformSuite";
 
 export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
-  if (globSync("**/tsconfig.json", { ignore: ["node_modules/**"] }).length > 0) {
+  if (
+    globSync("**/tsconfig.json", { ignore: ["node_modules/**"] }).length > 0
+  ) {
     require("ts-mocha");
   }
-  
+
   const mocha = new Mocha({ reporter: Reporter });
   await discoverAndAddTestFiles(mocha);
   const suites: BaseTestSuite[] = [];
