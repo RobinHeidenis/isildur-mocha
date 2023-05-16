@@ -55,3 +55,38 @@ export const transformSuite = (suite: Mocha.Suite): TestSuite => {
     }),
   };
 };
+
+export const transformFileMap = (
+  fileMap: Map<string, { suites: Mocha.Suite[]; tests: Mocha.Test[] }>
+) => {
+  const suites: BaseTestSuite[] = [];
+
+  fileMap.forEach((value, key) => {
+    console.log(key, value);
+
+    const baseSuite: BaseTestSuite = {
+      name: key,
+      file: key,
+      suites: [],
+      tests: [],
+    };
+
+    value.suites.forEach((suite) => {
+      const transformedSuite = transformDiscoveredSuite(suite);
+      transformedSuite.file = key;
+      baseSuite.suites.push(transformedSuite);
+    });
+
+    value.tests.forEach((test) => {
+      baseSuite.tests.push({
+        name: test.title,
+        file: key,
+        duration: test.duration ?? -1, // -1 to signal it did not run
+      });
+    });
+
+    suites.push(baseSuite);
+  });
+
+  return suites;
+};
