@@ -1,9 +1,10 @@
 import { TestSuite } from "@isildur-testing/api";
 import { globSync } from "glob";
 import Mocha from "mocha";
+import { Reporter } from "~/customReporter";
 import { discoverAndAddTestFiles } from "~/helpers/discoverAndAddTestFiles";
 import { EVENT_RUN_END, EVENT_SUITE_END } from "~/helpers/mochaEventConstants";
-import { transformSuite } from "~/helpers/transformSuite";
+import { parseRanSuite } from "~/helpers/parseSuite";
 
 export const runAllTests = async (): Promise<TestSuite[]> => {
   if (
@@ -12,9 +13,9 @@ export const runAllTests = async (): Promise<TestSuite[]> => {
     require("ts-mocha");
   }
 
-  const mocha = new Mocha();
+  const mocha = new Mocha({reporter: Reporter});
   await discoverAndAddTestFiles(mocha);
-  const suites: TestSuite[] = [];
+  let suites: TestSuite[] = [];
 
   await mocha.loadFilesAsync();
 
@@ -24,7 +25,7 @@ export const runAllTests = async (): Promise<TestSuite[]> => {
       .on(EVENT_SUITE_END, (suite) => {
         if (!suite.root) return;
 
-        suite.suites.forEach((suite) => suites.push(transformSuite(suite)));
+        suites = parseRanSuite(suite);
       })
       .on(EVENT_RUN_END, () => resolve(suites));
   });
