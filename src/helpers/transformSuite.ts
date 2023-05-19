@@ -18,10 +18,10 @@ export const transformDiscoveredSuite = (suite: Mocha.Suite): BaseTestSuite => {
 };
 
 export const transformSuite = (suite: Mocha.Suite): TestSuite => {
-  return {
+  const base: TestSuite = {
     name: suite.title,
     file: suite.file ?? "",
-    duration: suite.tests.reduce((acc, test) => acc + (test.duration ?? 0), 0),
+    duration: 0,
     numFailing: suite.tests.filter((test) => test.state === "failed").length,
     numPassing: suite.tests.filter((test) => test.state === "passed").length,
     numSkipped: suite.tests.filter((test) => test.pending).length,
@@ -54,4 +54,103 @@ export const transformSuite = (suite: Mocha.Suite): TestSuite => {
       };
     }),
   };
+
+  return {
+    ...base,
+    duration:
+      base.tests.reduce((acc, test) => acc + test.duration, 0) +
+      base.suites.reduce((acc, suite) => acc + suite.duration, 0),
+    numFailing:
+      base.tests.filter((test) => test.status === "fail").length +
+      base.suites.reduce((acc, suite) => acc + suite.numFailing, 0),
+    numPassing:
+      base.tests.filter((test) => test.status === "pass").length +
+      base.suites.reduce((acc, suite) => acc + suite.numPassing, 0),
+    numSkipped:
+      base.tests.filter((test) => test.status === "skipped").length +
+      base.suites.reduce((acc, suite) => acc + suite.numSkipped, 0),
+  };
+};
+
+export const transformFileMap = (
+  fileMap: Map<string, { suites: Mocha.Suite[]; tests: Mocha.Test[] }>
+) => {
+  return Array.from(fileMap).map(([key, value]) => ({
+    name: key,
+    file: key,
+    suites: value.suites.map((suite) => ({
+      ...transformDiscoveredSuite(suite),
+      file: key,
+    })),
+    tests: value.tests.map((test) => ({
+      name: test.title,
+      file: key,
+      duration: test.duration ?? -1,
+    })),
+  }));
+};
+
+export const transformRanSuiteFileMap = (
+  fileMap: Map<string, { suites: Mocha.Suite[]; tests: Mocha.Test[] }>
+): TestSuite[] => {
+  return Array.from(fileMap).map(([key, value]) => {
+    const base: TestSuite = {
+      name: key,
+      file: key,
+      duration: value.tests.reduce(
+        (acc, test) => acc + (test.duration ?? 0),
+        0
+      ),
+      numFailing: value.tests.filter((test) => test.state === "failed").length,
+      numPassing: value.tests.filter((test) => test.state === "passed").length,
+      numSkipped: value.tests.filter((test) => test.pending).length,
+      suites: value.suites.map((suite) => ({
+        ...transformSuite(suite),
+        file: key,
+      })),
+      tests: value.tests.map((test) => {
+        const baseResult = {
+          name: test.title,
+          file: key,
+          duration: test.duration ?? 0,
+        };
+
+        if (test.state === "failed") {
+          return {
+            ...baseResult,
+            status: "fail",
+            error: test.err?.message ?? "",
+          };
+        }
+
+        if (test.state === "passed") {
+          return {
+            ...baseResult,
+            status: "pass",
+          };
+        }
+
+        return {
+          ...baseResult,
+          status: "skipped",
+        };
+      }),
+    };
+
+    return {
+      ...base,
+      duration:
+        base.tests.reduce((acc, test) => acc + test.duration, 0) +
+        base.suites.reduce((acc, suite) => acc + suite.duration, 0),
+      numFailing:
+        base.tests.filter((test) => test.status === "fail").length +
+        base.suites.reduce((acc, suite) => acc + suite.numFailing, 0),
+      numPassing:
+        base.tests.filter((test) => test.status === "pass").length +
+        base.suites.reduce((acc, suite) => acc + suite.numPassing, 0),
+      numSkipped:
+        base.tests.filter((test) => test.status === "skipped").length +
+        base.suites.reduce((acc, suite) => acc + suite.numSkipped, 0),
+    };
+  });
 };

@@ -4,7 +4,7 @@ import Mocha from "mocha";
 import { Reporter } from "~/customReporter";
 import { discoverAndAddTestFiles } from "~/helpers/discoverAndAddTestFiles";
 import { EVENT_RUN_END, EVENT_SUITE_END } from "~/helpers/mochaEventConstants";
-import { transformDiscoveredSuite } from "~/helpers/transformSuite";
+import { parseDiscoveredSuite } from "~/helpers/parseSuite";
 
 export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
   if (
@@ -15,7 +15,7 @@ export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
 
   const mocha = new Mocha({ reporter: Reporter });
   await discoverAndAddTestFiles(mocha);
-  const suites: BaseTestSuite[] = [];
+  let suites: BaseTestSuite[] = [];
 
   await mocha.loadFilesAsync();
 
@@ -26,9 +26,7 @@ export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
       .on(EVENT_SUITE_END, (suite) => {
         if (!suite.root) return;
 
-        suite.suites.forEach((suite) =>
-          suites.push(transformDiscoveredSuite(suite))
-        );
+        suites = parseDiscoveredSuite(suite);
       })
       .on(EVENT_RUN_END, () => resolve(suites));
   });
