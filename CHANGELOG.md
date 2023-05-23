@@ -1,5 +1,15 @@
 # @isildur-testing/mocha
 
+## 0.4.0
+
+### Minor Changes
+
+- a3c5cfa: Fixed parsing and transforming test results to the proper format. This was going wrong before, and will now produce the proper result regardless of which method you run
+
+### Patch Changes
+
+- 1d2e837: Fixed requiring of ts-mocha not running in some cases by placing the require inside the function itself (runAllTests, discoverAllTests)
+
 ## 0.3.2
 
 ### Patch Changes
