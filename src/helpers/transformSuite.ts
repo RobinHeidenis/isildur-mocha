@@ -25,7 +25,7 @@ export const transformSuite = (suite: Mocha.Suite): TestSuite => {
     numFailing: suite.tests.filter((test) => test.state === "failed").length,
     numPassing: suite.tests.filter((test) => test.state === "passed").length,
     numSkipped: suite.tests.filter((test) => test.pending).length,
-    suites: suite.suites.map((suite) => transformSuite(suite)),
+    suites: suite.suites.map(transformSuite),
     tests: suite.tests.map((test) => {
       const baseResult = {
         name: test.title,
@@ -104,10 +104,7 @@ export const transformRanSuiteFileMap = (
       numFailing: value.tests.filter((test) => test.state === "failed").length,
       numPassing: value.tests.filter((test) => test.state === "passed").length,
       numSkipped: value.tests.filter((test) => test.pending).length,
-      suites: value.suites.map((suite) => ({
-        ...transformSuite(suite),
-        file: key,
-      })),
+      suites: value.suites.map(transformSuite),
       tests: value.tests.map((test) => {
         const baseResult = {
           name: test.title,

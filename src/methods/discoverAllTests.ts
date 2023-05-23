@@ -3,7 +3,7 @@ import { globSync } from "glob";
 import Mocha from "mocha";
 import { Reporter } from "~/customReporter";
 import { discoverAndAddTestFiles } from "~/helpers/discoverAndAddTestFiles";
-import { EVENT_RUN_END, EVENT_SUITE_END } from "~/helpers/mochaEventConstants";
+import { EVENT_SUITE_END } from "~/helpers/mochaEventConstants";
 import { parseDiscoveredSuite } from "~/helpers/parseSuite";
 
 export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
@@ -15,7 +15,6 @@ export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
 
   const mocha = new Mocha({ reporter: Reporter });
   await discoverAndAddTestFiles(mocha);
-  let suites: BaseTestSuite[] = [];
 
   await mocha.loadFilesAsync();
 
@@ -26,8 +25,7 @@ export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
       .on(EVENT_SUITE_END, (suite) => {
         if (!suite.root) return;
 
-        suites = parseDiscoveredSuite(suite);
-      })
-      .on(EVENT_RUN_END, () => resolve(suites));
+        resolve(parseDiscoveredSuite(suite));
+      });
   });
 };
