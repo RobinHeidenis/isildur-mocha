@@ -1,13 +1,13 @@
 {
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "test/**/*.ts"],
   "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs",
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "nodenext",
     "baseUrl": ".",
     "paths": {
       "~/*": ["src/*"]
-    }, 
-    "resolveJsonModule": true,  
+    },
     "allowJs": true,            
     "checkJs": true,
     "declaration": true,        
