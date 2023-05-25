@@ -7,7 +7,6 @@ export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
     [],
     { cwd: process.cwd() }
   );
-  console.log("childProcess", childProcess);
 
   return new Promise((resolve) => {
     childProcess.on("message", (message) => {
