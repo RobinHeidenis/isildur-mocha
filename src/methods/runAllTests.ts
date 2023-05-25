@@ -1,29 +1,16 @@
 import { TestSuite } from "@isildur-testing/api";
-import { globSync } from "glob";
-import Mocha from "mocha";
-import { discoverAndAddTestFiles } from "~/helpers/discoverAndAddTestFiles";
-import { EVENT_SUITE_END } from "~/helpers/mochaEventConstants";
-import { parseRanSuite } from "~/helpers/parseSuite";
+import { fork } from "child_process";
 
 export const runAllTests = async (): Promise<TestSuite[]> => {
-  if (
-    globSync("**/tsconfig.json", { ignore: ["node_modules/**"] }).length > 0
-  ) {
-    require("ts-mocha");
-  }
-
-  const mocha = new Mocha();
-  await discoverAndAddTestFiles(mocha);
-
-  await mocha.loadFilesAsync();
+  const childProcess = fork(
+    __dirname + "/methods/childProcessMethods/runAllTests.cjs",
+    [],
+    { cwd: process.cwd() }
+  );
 
   return new Promise((resolve) => {
-    mocha
-      .run()
-      .on(EVENT_SUITE_END, (suite) => {
-        if (!suite.root) return;
-
-        resolve(parseRanSuite(suite));
-      });
+    childProcess.on("message", (message) => {
+      resolve(message as TestSuite[]);
+    });
   });
 };

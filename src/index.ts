@@ -1,4 +1,4 @@
-import { MochaRunner } from "./runner";
+import { MochaRunner } from "./runner.js";
 
 export { MochaRunner };
 

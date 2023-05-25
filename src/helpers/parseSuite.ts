@@ -2,7 +2,7 @@ import { BaseTestSuite, TestSuite } from "@isildur-testing/api";
 import {
   transformFileMap,
   transformRanSuiteFileMap,
-} from "~/helpers/transformSuite";
+} from "~/helpers/transformSuite.js";
 
 const createFileMap = (
   suite: Mocha.Suite

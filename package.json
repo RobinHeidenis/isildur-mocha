@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "jest",
-    "build": "rimraf dist && tsup-node src/index.ts --dts --format cjs,esm",
+    "build": "rimraf dist && tsup-node --entry src/index.ts --entry src/methods/childProcessMethods/**/*.ts --dts --format cjs,esm",
     "publish-package": "pnpm run build && pnpm changeset version && pnpm publish --access public"
   },
   "keywords": [],
