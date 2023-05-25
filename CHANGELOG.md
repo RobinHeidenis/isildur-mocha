@@ -1,5 +1,11 @@
 # @isildur-testing/mocha
 
+## 0.5.0
+
+### Minor Changes
+
+- 1ac5dd4: Fixed multiple runs by executing each run in a child process to avoid problems with the Node file cache
+
 ## 0.4.0
 
 ### Minor Changes
