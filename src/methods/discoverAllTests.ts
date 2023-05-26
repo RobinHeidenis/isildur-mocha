@@ -1,8 +1,8 @@
-import { BaseTestSuite, TestRunnerOptions } from "@isildur-testing/api";
+import { BaseTestSuite, PartialTestRunnerOptions } from "@isildur-testing/api";
 import { fork } from "child_process";
 
 export const discoverAllTests = async (
-  options?: TestRunnerOptions
+  options?: PartialTestRunnerOptions
 ): Promise<BaseTestSuite[]> => {
   const childProcess = fork(
     __dirname + "/methods/childProcessMethods/discoverAllTests.cjs",
