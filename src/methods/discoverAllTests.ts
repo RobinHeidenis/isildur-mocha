@@ -1,10 +1,16 @@
-import { BaseTestSuite } from "@isildur-testing/api";
+import { BaseTestSuite, TestRunnerOptions } from "@isildur-testing/api";
 import { fork } from "child_process";
 
-export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
+export const discoverAllTests = async (
+  options?: TestRunnerOptions
+): Promise<BaseTestSuite[]> => {
   const childProcess = fork(
     __dirname + "/methods/childProcessMethods/discoverAllTests.cjs",
-    [],
+    [
+      JSON.stringify({
+        ...options,
+      }),
+    ],
     { cwd: process.cwd() }
   );
 

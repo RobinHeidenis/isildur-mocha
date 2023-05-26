@@ -1,16 +1,17 @@
 import {
   BaseTestSuite,
   IsildurTestRunner,
+  TestRunnerOptions,
   TestSuite,
 } from "@isildur-testing/api";
 import { methods } from "~/methods/index.js";
 
 export class MochaRunner implements IsildurTestRunner {
-  async runAllTests(): Promise<TestSuite[]> {
-    return methods.runAllTests();
+  run(options?: TestRunnerOptions): Promise<TestSuite[]> {
+    return methods.runAllTests(options);
   }
 
-  async discoverAllTests(): Promise<BaseTestSuite[]> {
-    return methods.discoverAllTests();
+  discover(options?: TestRunnerOptions): Promise<BaseTestSuite[]> {
+    return methods.discoverAllTests(options);
   }
 }

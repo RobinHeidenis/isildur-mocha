@@ -3,8 +3,9 @@ import { globSync } from "glob";
 import Mocha from "mocha";
 import { Reporter } from "~/customReporter.js";
 import { discoverAndAddTestFiles } from "~/helpers/discoverAndAddTestFiles.js";
+import { getOptions } from "~/helpers/getOptions.js";
 import { EVENT_SUITE_END } from "~/helpers/mochaEventConstants.js";
-import { parseDiscoveredSuite } from "~/helpers/parseSuite.js";
+import { parseRanSuite } from "~/helpers/parseSuite.js";
 
 if (!process.send) throw new Error("This file must be run as a child process.");
 
@@ -17,21 +18,23 @@ const runAllTests = async () => {
     require("ts-mocha");
   }
 
-  const mocha = new Mocha({ reporter: Reporter });
+  const mocha = new Mocha({
+    ...getOptions(),
+    reporter: Reporter,
+  });
+
   await discoverAndAddTestFiles(mocha);
 
   await mocha.loadFilesAsync();
 
   return new Promise<BaseTestSuite[]>((resolve) => {
-    mocha
-      .run()
-      .on(EVENT_SUITE_END, (suite) => {
-        if (!suite.root) return;
+    mocha.run().on(EVENT_SUITE_END, (suite) => {
+      if (!suite.root) return;
 
-        results = parseDiscoveredSuite(suite);
+      results = parseRanSuite(suite);
 
-        resolve(results);
-      });
+      resolve(results);
+    });
   });
 };
 

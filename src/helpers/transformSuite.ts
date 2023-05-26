@@ -36,7 +36,7 @@ export const transformSuite = (suite: Mocha.Suite): TestSuite => {
       if (test.state === "failed") {
         return {
           ...baseResult,
-          status: "fail",
+          status: "failed",
           error: test.err?.message ?? "",
         };
       }
@@ -44,7 +44,7 @@ export const transformSuite = (suite: Mocha.Suite): TestSuite => {
       if (test.state === "passed") {
         return {
           ...baseResult,
-          status: "pass",
+          status: "passed",
         };
       }
 
@@ -61,10 +61,10 @@ export const transformSuite = (suite: Mocha.Suite): TestSuite => {
       base.tests.reduce((acc, test) => acc + test.duration, 0) +
       base.suites.reduce((acc, suite) => acc + suite.duration, 0),
     numFailing:
-      base.tests.filter((test) => test.status === "fail").length +
+      base.tests.filter((test) => test.status === "failed").length +
       base.suites.reduce((acc, suite) => acc + suite.numFailing, 0),
     numPassing:
-      base.tests.filter((test) => test.status === "pass").length +
+      base.tests.filter((test) => test.status === "passed").length +
       base.suites.reduce((acc, suite) => acc + suite.numPassing, 0),
     numSkipped:
       base.tests.filter((test) => test.status === "skipped").length +
@@ -115,7 +115,7 @@ export const transformRanSuiteFileMap = (
         if (test.state === "failed") {
           return {
             ...baseResult,
-            status: "fail",
+            status: "failed",
             error: test.err?.message ?? "",
           };
         }
@@ -123,7 +123,7 @@ export const transformRanSuiteFileMap = (
         if (test.state === "passed") {
           return {
             ...baseResult,
-            status: "pass",
+            status: "passed",
           };
         }
 
@@ -140,10 +140,10 @@ export const transformRanSuiteFileMap = (
         base.tests.reduce((acc, test) => acc + test.duration, 0) +
         base.suites.reduce((acc, suite) => acc + suite.duration, 0),
       numFailing:
-        base.tests.filter((test) => test.status === "fail").length +
+        base.tests.filter((test) => test.status === "failed").length +
         base.suites.reduce((acc, suite) => acc + suite.numFailing, 0),
       numPassing:
-        base.tests.filter((test) => test.status === "pass").length +
+        base.tests.filter((test) => test.status === "passed").length +
         base.suites.reduce((acc, suite) => acc + suite.numPassing, 0),
       numSkipped:
         base.tests.filter((test) => test.status === "skipped").length +
