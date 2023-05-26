@@ -6,13 +6,11 @@ export const runAllTests = async (
 ): Promise<TestSuite[]> => {
   const childProcess = fork(
     __dirname + "/methods/childProcessMethods/runAllTests.cjs",
-    options
-      ? [
-          JSON.stringify({
-            ...options,
-          }),
-        ]
-      : [],
+    [
+      JSON.stringify({
+        ...options,
+      }),
+    ],
     { cwd: process.cwd() }
   );
 
