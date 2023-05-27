@@ -1,5 +1,15 @@
 # @isildur-testing/mocha
 
+## 0.6.0
+
+### Minor Changes
+
+- dd7252b: Added setting a config file location, a standard set of options, and specific Mocha options
+
+### Patch Changes
+
+- f3d7349: Removed numPassing, numFailing, and numSkipped statistics from suites. Removed duration for discovered tests as it is not used
+
 ## 0.5.0
 
 ### Minor Changes
