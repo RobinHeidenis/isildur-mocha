@@ -19,5 +19,6 @@ export const getOptions = () => {
     ...(options?.testNameFilter && { grep: options.testNameFilter }),
     ...(options?.timeout && { timeout: options.timeout }),
     ...(options?.maxWorkers && { jobs: options.maxWorkers }),
+    ...options?.runnerOptions,
   } satisfies Mocha.MochaOptions;
 };
