@@ -22,9 +22,6 @@ export const transformSuite = (suite: Mocha.Suite): TestSuite => {
     name: suite.title,
     file: suite.file ?? "",
     duration: 0,
-    numFailing: suite.tests.filter((test) => test.state === "failed").length,
-    numPassing: suite.tests.filter((test) => test.state === "passed").length,
-    numSkipped: suite.tests.filter((test) => test.pending).length,
     suites: suite.suites.map(transformSuite),
     tests: suite.tests.map((test) => {
       const baseResult = {
@@ -36,7 +33,7 @@ export const transformSuite = (suite: Mocha.Suite): TestSuite => {
       if (test.state === "failed") {
         return {
           ...baseResult,
-          status: "fail",
+          status: "failed",
           error: test.err?.message ?? "",
         };
       }
@@ -44,7 +41,7 @@ export const transformSuite = (suite: Mocha.Suite): TestSuite => {
       if (test.state === "passed") {
         return {
           ...baseResult,
-          status: "pass",
+          status: "passed",
         };
       }
 
@@ -60,15 +57,6 @@ export const transformSuite = (suite: Mocha.Suite): TestSuite => {
     duration:
       base.tests.reduce((acc, test) => acc + test.duration, 0) +
       base.suites.reduce((acc, suite) => acc + suite.duration, 0),
-    numFailing:
-      base.tests.filter((test) => test.status === "fail").length +
-      base.suites.reduce((acc, suite) => acc + suite.numFailing, 0),
-    numPassing:
-      base.tests.filter((test) => test.status === "pass").length +
-      base.suites.reduce((acc, suite) => acc + suite.numPassing, 0),
-    numSkipped:
-      base.tests.filter((test) => test.status === "skipped").length +
-      base.suites.reduce((acc, suite) => acc + suite.numSkipped, 0),
   };
 };
 
@@ -101,9 +89,6 @@ export const transformRanSuiteFileMap = (
         (acc, test) => acc + (test.duration ?? 0),
         0
       ),
-      numFailing: value.tests.filter((test) => test.state === "failed").length,
-      numPassing: value.tests.filter((test) => test.state === "passed").length,
-      numSkipped: value.tests.filter((test) => test.pending).length,
       suites: value.suites.map(transformSuite),
       tests: value.tests.map((test) => {
         const baseResult = {
@@ -115,7 +100,7 @@ export const transformRanSuiteFileMap = (
         if (test.state === "failed") {
           return {
             ...baseResult,
-            status: "fail",
+            status: "failed",
             error: test.err?.message ?? "",
           };
         }
@@ -123,7 +108,7 @@ export const transformRanSuiteFileMap = (
         if (test.state === "passed") {
           return {
             ...baseResult,
-            status: "pass",
+            status: "passed",
           };
         }
 
@@ -139,15 +124,6 @@ export const transformRanSuiteFileMap = (
       duration:
         base.tests.reduce((acc, test) => acc + test.duration, 0) +
         base.suites.reduce((acc, suite) => acc + suite.duration, 0),
-      numFailing:
-        base.tests.filter((test) => test.status === "fail").length +
-        base.suites.reduce((acc, suite) => acc + suite.numFailing, 0),
-      numPassing:
-        base.tests.filter((test) => test.status === "pass").length +
-        base.suites.reduce((acc, suite) => acc + suite.numPassing, 0),
-      numSkipped:
-        base.tests.filter((test) => test.status === "skipped").length +
-        base.suites.reduce((acc, suite) => acc + suite.numSkipped, 0),
     };
   });
 };

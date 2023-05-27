@@ -3,6 +3,7 @@ import { globSync } from "glob";
 import Mocha from "mocha";
 import { Reporter } from "~/customReporter.js";
 import { discoverAndAddTestFiles } from "~/helpers/discoverAndAddTestFiles.js";
+import { getOptions } from "~/helpers/getOptions.js";
 import { EVENT_SUITE_END } from "~/helpers/mochaEventConstants.js";
 import { parseDiscoveredSuite } from "~/helpers/parseSuite.js";
 
@@ -17,7 +18,10 @@ const discoverAllTests = async () => {
     require("ts-mocha");
   }
 
-  const mocha = new Mocha({ reporter: Reporter });
+  const mocha = new Mocha({
+    ...getOptions(),
+    reporter: Reporter,
+  });
   await discoverAndAddTestFiles(mocha);
 
   await mocha.loadFilesAsync();
