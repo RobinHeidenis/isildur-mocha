@@ -1,11 +1,11 @@
 import { TestSuite } from "@isildur-testing/api";
 import { Context, Suite, Test } from "mocha";
-import { transformSuite } from "~/helpers/transformSuite";
+import { transformRanSuite } from "~/helpers/transformSuite";
 
-describe("transformSuite", () => {
+describe("transformRanSuite", () => {
   it("should return a TestSuite object", () => {
     const suite = new Suite("testSuite", new Context());
-    const result = transformSuite(suite);
+    const result = transformRanSuite(suite);
     expect(result).toEqual({
       name: "testSuite",
       file: "",
@@ -19,7 +19,7 @@ describe("transformSuite", () => {
     const suite = new Suite("testSuite", new Context());
     const childSuite = new Suite("childSuite", new Context());
     suite.addSuite(childSuite);
-    const result = transformSuite(suite);
+    const result = transformRanSuite(suite);
     expect(result).toEqual({
       name: "testSuite",
       file: "",
@@ -41,7 +41,7 @@ describe("transformSuite", () => {
     const suite = new Suite("testSuite", new Context());
     const test = new Test("test");
     suite.addTest(test);
-    const result = transformSuite(suite);
+    const result = transformRanSuite(suite);
     expect(result).toEqual({
       name: "testSuite",
       file: "",
@@ -65,7 +65,7 @@ describe("transformSuite", () => {
     childSuite.addTest(test);
     suite.addSuite(childSuite);
     suite.addTest(test);
-    const result = transformSuite(suite);
+    const result = transformRanSuite(suite);
     expect(result).toEqual({
       name: "testSuite",
       file: "",
@@ -102,7 +102,7 @@ describe("transformSuite", () => {
     const test = new Test("test");
     test.state = "failed";
     suite.addTest(test);
-    const result = transformSuite(suite);
+    const result = transformRanSuite(suite);
     expect(result).toEqual({
       name: "testSuite",
       file: "",
@@ -125,7 +125,7 @@ describe("transformSuite", () => {
     const test = new Test("test");
     test.state = "passed";
     suite.addTest(test);
-    const result = transformSuite(suite);
+    const result = transformRanSuite(suite);
     expect(result).toEqual({
       name: "testSuite",
       file: "",

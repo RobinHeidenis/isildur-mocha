@@ -1,10 +1,10 @@
 import { BaseTestSuite } from "@isildur-testing/api";
 import { Context, Suite, Test } from "mocha";
-import { transformFileMap } from "~/helpers/transformSuite";
+import { transformDiscoveredSuiteFileMap } from "~/helpers/transformSuite";
 
-describe("transformFileMap", () => {
+describe("transformDiscoveredSuiteFileMap", () => {
   it("should return an empty array if the fileMap is empty", () => {
-    const result = transformFileMap(new Map());
+    const result = transformDiscoveredSuiteFileMap(new Map());
     expect(result).toEqual([]);
   });
 
@@ -16,7 +16,7 @@ describe("transformFileMap", () => {
     suite.addTest(test);
     const fileMap: Map<string, { suites: Suite[]; tests: Test[] }> = new Map();
     fileMap.set("test.ts", { suites: [suite], tests: [] });
-    const result = transformFileMap(fileMap);
+    const result = transformDiscoveredSuiteFileMap(fileMap);
     expect(result).toEqual([
       {
         name: "test.ts",
@@ -45,7 +45,7 @@ describe("transformFileMap", () => {
     test.file = "test.ts";
     const fileMap: Map<string, { suites: Suite[]; tests: Test[] }> = new Map();
     fileMap.set("test.ts", { suites: [], tests: [test] });
-    const result = transformFileMap(fileMap);
+    const result = transformDiscoveredSuiteFileMap(fileMap);
     expect(result).toEqual([
       {
         name: "test.ts",
