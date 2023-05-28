@@ -3,9 +3,9 @@ import { globSync } from "glob";
 import Mocha from "mocha";
 import { Reporter } from "~/customReporter.js";
 import { discoverAndAddTestFiles } from "~/helpers/discoverAndAddTestFiles.js";
-import { getOptions } from "~/helpers/getOptions.js";
-import { EVENT_SUITE_END } from "~/helpers/mochaEventConstants.js";
-import { parseDiscoveredSuite } from "~/helpers/parseSuite.js";
+import { getOptions } from "~/helpers/getOptions";
+import { EVENT_SUITE_END } from "~/helpers/mochaEventConstants";
+import { parseDiscoveredSuite } from "~/helpers/parseSuite";
 
 if (!process.send) throw new Error("This file must be run as a child process.");
 

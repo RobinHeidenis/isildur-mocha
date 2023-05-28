@@ -4,7 +4,7 @@ export const loadConfigFile = (configFilePath: string) => {
     argv?: string[] | string
   ) => Record<string, unknown> | undefined =
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-var-requires
-    require("mocha/lib/cli/options.js").loadOptions;
+    require("mocha/lib/cli/options").loadOptions;
 
   const options = loadOptions(configFilePath);
 

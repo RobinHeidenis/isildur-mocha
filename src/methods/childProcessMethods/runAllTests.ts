@@ -1,11 +1,11 @@
 import { BaseTestSuite } from "@isildur-testing/api";
 import { globSync } from "glob";
 import Mocha from "mocha";
-import { Reporter } from "~/customReporter.js";
-import { discoverAndAddTestFiles } from "~/helpers/discoverAndAddTestFiles.js";
-import { getOptions } from "~/helpers/getOptions.js";
-import { EVENT_SUITE_END } from "~/helpers/mochaEventConstants.js";
-import { parseRanSuite } from "~/helpers/parseSuite.js";
+import { Reporter } from "~/customReporter";
+import { discoverAndAddTestFiles } from "~/helpers/discoverAndAddTestFiles";
+import { getOptions } from "~/helpers/getOptions";
+import { EVENT_SUITE_END } from "~/helpers/mochaEventConstants";
+import { parseRanSuite } from "~/helpers/parseSuite";
 
 if (!process.send) throw new Error("This file must be run as a child process.");
 

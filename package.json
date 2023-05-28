@@ -3,7 +3,7 @@
   "version": "0.6.0",
   "description": "",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "build": "rimraf dist && tsup-node --entry src/index.ts --entry src/methods/childProcessMethods/**/*.ts --dts --format cjs,esm",
     "publish-package": "pnpm run build && pnpm changeset version && pnpm publish --access public"
   },
