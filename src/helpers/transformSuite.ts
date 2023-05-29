@@ -56,7 +56,7 @@ export const transformRanSuite = (suite: Mocha.Suite): TestSuite => {
     ...base,
     duration:
       base.tests.reduce((acc, test) => acc + test.duration, 0) +
-      base.suites.reduce((acc, suite) => acc + suite.duration, 0),
+      base.suites.reduce((acc, suite) => acc + suite.duration, 0), // Map over suites and tests to get total duration, this couldn't be done before since we didn't have all the data yet
   };
 };
 

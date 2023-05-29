@@ -1,4 +1,4 @@
-import { defaultOptions } from "test/helpers/getOptions.test";
+import { defaultOptions } from "test/helpers/getOptions/getOptions.test";
 import { loadConfigFile } from "~/helpers/loadConfigFile";
 
 describe("loadConfigFile", () => {
