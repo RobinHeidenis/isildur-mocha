@@ -17,12 +17,12 @@ export const transformDiscoveredSuite = (suite: Mocha.Suite): BaseTestSuite => {
   };
 };
 
-export const transformSuite = (suite: Mocha.Suite): TestSuite => {
+export const transformRanSuite = (suite: Mocha.Suite): TestSuite => {
   const base: TestSuite = {
     name: suite.title,
     file: suite.file ?? "",
     duration: 0,
-    suites: suite.suites.map(transformSuite),
+    suites: suite.suites.map(transformRanSuite),
     tests: suite.tests.map((test) => {
       const baseResult = {
         name: test.title,
@@ -56,11 +56,11 @@ export const transformSuite = (suite: Mocha.Suite): TestSuite => {
     ...base,
     duration:
       base.tests.reduce((acc, test) => acc + test.duration, 0) +
-      base.suites.reduce((acc, suite) => acc + suite.duration, 0),
+      base.suites.reduce((acc, suite) => acc + suite.duration, 0), // Map over suites and tests to get total duration, this couldn't be done before since we didn't have all the data yet
   };
 };
 
-export const transformFileMap = (
+export const transformDiscoveredSuiteFileMap = (
   fileMap: Map<string, { suites: Mocha.Suite[]; tests: Mocha.Test[] }>
 ) => {
   return Array.from(fileMap).map(([key, value]) => ({
@@ -89,7 +89,7 @@ export const transformRanSuiteFileMap = (
         (acc, test) => acc + (test.duration ?? 0),
         0
       ),
-      suites: value.suites.map(transformSuite),
+      suites: value.suites.map(transformRanSuite),
       tests: value.tests.map((test) => {
         const baseResult = {
           name: test.title,

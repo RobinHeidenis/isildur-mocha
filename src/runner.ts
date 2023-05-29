@@ -4,7 +4,7 @@ import {
   PartialTestRunnerOptions,
   TestSuite
 } from "@isildur-testing/api";
-import { methods } from "~/methods/index.js";
+import { methods } from "~/methods/index";
 
 export class MochaRunner implements IsildurTestRunner {
   run(options?: PartialTestRunnerOptions): Promise<TestSuite[]> {

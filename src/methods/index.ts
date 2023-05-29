@@ -1,5 +1,5 @@
-import { discoverAllTests } from "./discoverAllTests.js";
-import { runAllTests } from "./runAllTests.js";
+import { discoverAllTests } from "./discoverAllTests";
+import { runAllTests } from "./runAllTests";
 
 export const methods = {
   runAllTests,

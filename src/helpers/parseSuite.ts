@@ -1,8 +1,8 @@
 import { BaseTestSuite, TestSuite } from "@isildur-testing/api";
 import {
-  transformFileMap,
+  transformDiscoveredSuiteFileMap,
   transformRanSuiteFileMap,
-} from "~/helpers/transformSuite.js";
+} from "~/helpers/transformSuite";
 
 const createFileMap = (
   suite: Mocha.Suite
@@ -32,7 +32,7 @@ const createFileMap = (
 };
 
 export const parseDiscoveredSuite = (suite: Mocha.Suite): BaseTestSuite[] => {
-  return transformFileMap(createFileMap(suite));
+  return transformDiscoveredSuiteFileMap(createFileMap(suite));
 };
 
 export const parseRanSuite = (suite: Mocha.Suite): TestSuite[] => {

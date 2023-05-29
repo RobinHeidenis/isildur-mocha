@@ -5,8 +5,8 @@ dependencies:
     specifier: ^2.26.1
     version: 2.26.1
   '@isildur-testing/api':
-    specifier: ^0.2.1
-    version: 0.2.1
+    specifier: ^0.3.0
+    version: 0.3.0
   glob:
     specifier: ^10.2.2
     version: 10.2.2
@@ -851,8 +851,8 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@isildur-testing/api@0.2.1:
-    resolution: {integrity: sha512-UQAjFiEdKfPVS/GrEeHZmJI/fkTdyccUoOl43V5uSFu4t3XMFjx+h3TCDJFZaI6YOF83r8ALObF2AuAFxVrtrQ==}
+  /@isildur-testing/api@0.3.0:
+    resolution: {integrity: sha512-CxlNTJmJelb7VNlVl/clFoaDhDGHQO0D3wBspG95+MlPj1/cV3ypkCbzccaR7zOKIoUjvDU+R04DeiUp0ErQEg==}
     dev: false
 
   /@istanbuljs/load-nyc-config@1.1.0:

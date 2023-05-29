@@ -1,5 +1,11 @@
 # @isildur-testing/mocha
 
+## 0.6.1
+
+### Patch Changes
+
+- 8c1e0bd: Small fixes in code quality, added tests
+
 ## 0.6.0
 
 ### Minor Changes
